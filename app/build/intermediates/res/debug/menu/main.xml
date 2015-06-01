@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/flush"
+        android:icon="@drawable/refresh"
+        android:title="@string/flush"/>
+    <item
+        android:id="@+id/close"
+        android:icon="@drawable/close"
+        android:title="@string/close"/>
+    <item android:id="@+id/type"
+        android:title="Normal"
+        android:showAsAction="ifRoom"
+        android:icon="@drawable/type"/>
+</menu><!-- From: file:/D:/My%20Documents/我的文档/GitHub/temp_find_me/app/src/main/res/menu/main.xml -->

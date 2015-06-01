@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="D:\My Documents\我的文档\GitHub\temp_find_me\app\libs\baidumapapi_v3_3_0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="110659c4d195f1335d04be564045b6b8eb8d83f4">
+        <dex dex="D:\My Documents\我的文档\GitHub\temp_find_me\app\build\intermediates\pre-dexed\debug\baidumapapi_v3_3_0-fc78f8dcc9fb8459cb43502d74337f131f1d21ba.jar" />
+    </item>
+    <item
+        jar="D:\My Documents\我的文档\GitHub\temp_find_me\libs\wmqtt.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="fc86f8fb0a55738adc56d1a3320d39a5b71fb04c">
+        <dex dex="D:\My Documents\我的文档\GitHub\temp_find_me\app\build\intermediates\pre-dexed\debug\wmqtt-b8081f1185626b57852925c539b28355923a4cc1.jar" />
+    </item>
+    <item
+        jar="D:\My Documents\我的文档\GitHub\temp_find_me\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
+        <dex dex="D:\My Documents\我的文档\GitHub\temp_find_me\app\build\intermediates\pre-dexed\debug\classes-bad5a35e02fb5eb5833d6687e57fbf2fd5cef063.jar" />
+    </item>
+    <item
+        jar="D:\Android\android-sdk-windows\extras\android\m2repository\com\android\support\support-annotations\21.0.3\support-annotations-21.0.3.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
+        <dex dex="D:\My Documents\我的文档\GitHub\temp_find_me\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-b36bf656eaae3eb5511154cf7556cc19515c11a3.jar" />
+    </item>
+    <item
+        jar="D:\My Documents\我的文档\GitHub\temp_find_me\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\21.0.3\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
+        <dex dex="D:\My Documents\我的文档\GitHub\temp_find_me\app\build\intermediates\pre-dexed\debug\classes-4d0378861f07699dd779e5f85d0a24d2c5213d3b.jar" />
+    </item>
+    <item
+        jar="D:\My Documents\我的文档\GitHub\temp_find_me\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\libs\internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="D:\My Documents\我的文档\GitHub\temp_find_me\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-dfe156b460f1fd4e370c335e99855199772c9aea.jar" />
+    </item>
+    <item
+        jar="D:\My Documents\我的文档\GitHub\temp_find_me\app\libs\locSDK_5.01.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="8854f80a1a63f6348276dd5c8e96b9096784a513">
+        <dex dex="D:\My Documents\我的文档\GitHub\temp_find_me\app\build\intermediates\pre-dexed\debug\locSDK_5.01-ab97aa5da36d388347fe2104cf6c981d8fe34e12.jar" />
+    </item>
+
+</items>
