@@ -4,4 +4,7 @@
     <eat-comment/>
     <bool name="abc_action_bar_embed_tabs_pre_jb">true</bool>
     <bool name="abc_config_allowActionMenuItemTextWithIcon">true</bool>
+    <!-- From: file:/D:/My%20Documents/我的文档/GitHub/temp_find_me/app/build/intermediates/exploded-aar/com.github.sd6352051.niftydialogeffects/niftydialogeffects/1.0.0/res/values-w480dp-v13/values.xml -->
+    <eat-comment/>
+    <dimen name="dialog_padding">36dp</dimen>
 </resources>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true" android:drawable="@drawable/btn_press" />
+    <item android:state_enabled="false" android:drawable="@drawable/btn_press" />
+    <item android:drawable="@drawable/btn_unpress" />
+</selector><!-- From: file:/E:/GitHub/NiftyDialog/NiftyDialogEffects/library/src/main/res/drawable/btn_selector.xml --><!-- From: file:/D:/My%20Documents/我的文档/GitHub/temp_find_me/app/build/intermediates/exploded-aar/com.github.sd6352051.niftydialogeffects/niftydialogeffects/1.0.0/res/drawable/btn_selector.xml -->

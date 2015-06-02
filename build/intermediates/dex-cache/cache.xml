@@ -2,11 +2,32 @@
 <items version="2" >
 
     <item
+        jar="C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\com.nineoldandroids\library\2.4.0\e9b63380f3a242dbdbf103a2355ad7e43bad17cb\library-2.4.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="e9b63380f3a242dbdbf103a2355ad7e43bad17cb">
+        <dex dex="D:\My Documents\我的文档\GitHub\temp_find_me\app\build\intermediates\pre-dexed\debug\library-2.4.0-dd460f45d27a359687729c3c169358b1eda3100b.jar" />
+    </item>
+    <item
         jar="D:\My Documents\我的文档\GitHub\temp_find_me\app\libs\baidumapapi_v3_3_0.jar"
         jumboMode="false"
         revision="22.0.1"
         sha1="110659c4d195f1335d04be564045b6b8eb8d83f4">
         <dex dex="D:\My Documents\我的文档\GitHub\temp_find_me\app\build\intermediates\pre-dexed\debug\baidumapapi_v3_3_0-fc78f8dcc9fb8459cb43502d74337f131f1d21ba.jar" />
+    </item>
+    <item
+        jar="D:\My Documents\我的文档\GitHub\temp_find_me\app\build\intermediates\exploded-aar\com.github.sd6352051.niftydialogeffects\niftydialogeffects\1.0.0\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="f6e011916db951e72f3a2be65cfb864bf5408035">
+        <dex dex="D:\My Documents\我的文档\GitHub\temp_find_me\app\build\intermediates\pre-dexed\debug\classes-e9cba066d0731aa17df2d67ec13fb2b42ff423c1.jar" />
+    </item>
+    <item
+        jar="D:\My Documents\我的文档\GitHub\temp_find_me\libs\nineoldandroids-2.4.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="59f19e43354d32de831379c23ce03bb259a4c2b7">
+        <dex dex="D:\My Documents\我的文档\GitHub\temp_find_me\app\build\intermediates\pre-dexed\debug\nineoldandroids-2.4.0-480bed239d787ea74ce962481764cf53cb393a30.jar" />
     </item>
     <item
         jar="D:\My Documents\我的文档\GitHub\temp_find_me\libs\wmqtt.jar"

@@ -12,7 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +43,8 @@ import com.chenleejr.findme.service.UploadService;
 import com.chenleejr.findme.thread.GetDataThread;
 import com.chenleejr.findme.thread.UploadThread;
 import com.chenleejr.findme.util.Tools;
+import com.gitonway.lee.niftymodaldialogeffects.lib.Effectstype;
+import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
 
 import java.util.ArrayList;
 
@@ -51,8 +53,7 @@ public class MainActivity extends Activity implements OnMarkerClickListener {
     private LocationClient locationClient = null;
     private BDLocationListener myListener = new MyLocationListener();
     private TextView tv;
-    private TextView tv_load;
-    private ImageView image;
+    private ProgressBar pb;
     private BaiduMap map;
     private ActionBar bar;
     private BDLocation mLocation;
@@ -93,10 +94,6 @@ public class MainActivity extends Activity implements OnMarkerClickListener {
         }
     };
 
-    public ImageView getImage() {
-        return image;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         System.out.println("oncreate");
@@ -114,10 +111,7 @@ public class MainActivity extends Activity implements OnMarkerClickListener {
         nowTimeForGetData = System.currentTimeMillis();
         //nowTimeForCheckMessage = System.currentTimeMillis();
         tv = (TextView) this.findViewById(R.id.tv1);
-        image = (ImageView) this.findViewById(R.id.image);
-        image.setVisibility(View.GONE);
-        tv_load = (TextView) this.findViewById(R.id.tv_load);
-        tv_load.setText("Loading...");
+        pb = (ProgressBar) findViewById(R.id.pb_load);
         bar = this.getActionBar();
         bar.setTitle("");
         bar.setDisplayHomeAsUpEnabled(true);
@@ -201,14 +195,11 @@ public class MainActivity extends Activity implements OnMarkerClickListener {
         map.setMyLocationConfigeration(config);
         tv.setText(mLocation.getAddrStr());
         if (firstRefresh) {
-            tv_load.setVisibility(View.GONE);
+            pb.setVisibility(View.GONE);
             mapView.setVisibility(View.VISIBLE);
             new GetDataThread(map, app, myHandler).start();
         }
         System.out.println("refresh");
-//		NotificationManager nm = (NotificationManager) this
-//				.getSystemService(this.NOTIFICATION_SERVICE);
-//		nm.cancel(666);
     }
 
     private class MyLocationListener implements BDLocationListener {
@@ -222,21 +213,11 @@ public class MainActivity extends Activity implements OnMarkerClickListener {
                 new UploadThread(location, app, myHandler).start();
                 nowTimeForUpload = time;
             }
-//			if (time - nowTimeForCheckFriends >= 1000 * 10) {
-//				if (!firstRefresh)
-//					new CheckThread(app, myHandler).start();
-//				nowTimeForCheckFriends = time;
-//			}
             if (time - nowTimeForGetData >= 1000 * 10) {
                 if (!firstRefresh)
                     new GetDataThread(map, app, myHandler).start();
                 nowTimeForGetData = time;
             }
-//            if (time - nowTimeForCheckMessage >= 1000 * 10) {
-//                if (!app.isMessageActive())
-//                    new CheckMessageThread(app, myHandler).start();
-//                nowTimeForCheckMessage = time;
-//            }
 
             if (firstRefresh) {
                 refresh();
@@ -246,6 +227,37 @@ public class MainActivity extends Activity implements OnMarkerClickListener {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(this);
+
+        dialogBuilder
+                .withTitle("Are you sure?")
+                .withTitleColor("#FFFFFF")
+                .withMessage("Do you still want to upload you data after you sign out?")
+                .withMessageColor("#FFFFFF")
+                .withDialogColor("#00AEFF")
+                .withDuration(300)
+                .withEffect(Effectstype.RotateBottom)
+                .withButton1Text("OK")
+                .withButton2Text("NO")
+                .isCancelable(true)
+                .setButton1Click(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        app.setServiceWanted(true);
+                        finish();
+                    }
+                })
+                .setButton2Click(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        app.setServiceWanted(false);
+                        finish();
+                    }
+                })
+                .show();
+    }
 
     @Override
     public boolean onMenuOpened(int featureId, Menu menu) {
@@ -302,7 +314,7 @@ public class MainActivity extends Activity implements OnMarkerClickListener {
             s.setName("");
             s.setPassword("");
             app.setServiceWanted(false);
-            finish();
+            app.finishAll();
         }
         if (id == R.id.type) {
             if (item.getTitle().equals("Normal")) {
@@ -326,9 +338,7 @@ public class MainActivity extends Activity implements OnMarkerClickListener {
             //System.out.println(ll.latitude + " " + ll.longitude);
             //System.out.println(u.getL().latitude + " " + u.getL().longitude);
             if (u.getL().latitude == ll.latitude && u.getL().longitude == ll.longitude) {
-                Intent intent = new Intent(this, MessageActivity.class);
-                intent.putExtra("id", u.getId());
-                startActivity(intent);
+                MessageActivity.actionStart(this, "", u.getId());
                 break;
             }
         }

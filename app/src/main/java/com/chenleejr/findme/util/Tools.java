@@ -2,16 +2,12 @@ package com.chenleejr.findme.util;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewConfiguration;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
-import android.widget.ImageView;
 
 import com.baidu.location.BDLocation;
 import com.baidu.mapapi.map.BaiduMap;
@@ -23,7 +19,6 @@ import com.baidu.mapapi.map.TextOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.chenleejr.findme.R;
 import com.chenleejr.findme.activity.MainActivity;
-import com.chenleejr.findme.activity.MessageActivity;
 import com.chenleejr.findme.application.MyApplication;
 import com.chenleejr.findme.bean.SelfUser;
 import com.chenleejr.findme.bean.User;
@@ -83,33 +78,6 @@ public class Tools {
             e.printStackTrace();
         }
 
-    }
-
-    public static void startNotificationGorMessage(final MyApplication app,
-                                                   int i, final String message) {
-        ArrayList<Activity> activities = app.getList();
-        Activity m;
-        for (Activity activity : activities) {
-            if (activity instanceof MainActivity) {
-                m = activity;
-                ImageView image = ((MainActivity) m).getImage();
-                image.setImageResource(R.drawable.ic_3);
-                image.setVisibility(View.VISIBLE);
-                image.startAnimation(animation);
-                image.setOnClickListener(new OnClickListener() {
-
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(app.getApplicationContext(),
-                                MessageActivity.class);
-                        intent.putExtra("message", message);
-
-                    }
-
-                });
-
-            }
-        }
     }
 
     /**
