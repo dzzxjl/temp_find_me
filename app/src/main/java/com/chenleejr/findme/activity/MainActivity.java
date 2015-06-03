@@ -24,8 +24,6 @@ import com.baidu.location.LocationClientOption.LocationMode;
 import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BaiduMap.OnMarkerClickListener;
-import com.baidu.mapapi.map.BitmapDescriptor;
-import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
@@ -187,11 +185,11 @@ public class MainActivity extends Activity implements OnMarkerClickListener {
                 .latitude(mLocation.getLatitude())
                 .longitude(mLocation.getLongitude()).build();
         map.setMyLocationData(locData);
-        BitmapDescriptor mCurrentMarker = BitmapDescriptorFactory
-                .fromResource(R.drawable.icon_geo);
+//        BitmapDescriptor mCurrentMarker = BitmapDescriptorFactory
+//                .fromResource(R.drawable.icon_geo);
         MyLocationConfiguration config = new MyLocationConfiguration(
                 MyLocationConfiguration.LocationMode.NORMAL, true,
-                mCurrentMarker);
+                null);
         map.setMyLocationConfigeration(config);
         tv.setText(mLocation.getAddrStr());
         if (firstRefresh) {

@@ -9,13 +9,6 @@
         <dex dex="D:\My Documents\我的文档\GitHub\temp_find_me\app\build\intermediates\pre-dexed\debug\library-2.4.0-dd460f45d27a359687729c3c169358b1eda3100b.jar" />
     </item>
     <item
-        jar="D:\My Documents\我的文档\GitHub\temp_find_me\app\libs\baidumapapi_v3_3_0.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="110659c4d195f1335d04be564045b6b8eb8d83f4">
-        <dex dex="D:\My Documents\我的文档\GitHub\temp_find_me\app\build\intermediates\pre-dexed\debug\baidumapapi_v3_3_0-fc78f8dcc9fb8459cb43502d74337f131f1d21ba.jar" />
-    </item>
-    <item
         jar="D:\My Documents\我的文档\GitHub\temp_find_me\app\build\intermediates\exploded-aar\com.github.sd6352051.niftydialogeffects\niftydialogeffects\1.0.0\classes.jar"
         jumboMode="false"
         revision="22.0.1"
@@ -23,25 +16,11 @@
         <dex dex="D:\My Documents\我的文档\GitHub\temp_find_me\app\build\intermediates\pre-dexed\debug\classes-e9cba066d0731aa17df2d67ec13fb2b42ff423c1.jar" />
     </item>
     <item
-        jar="D:\My Documents\我的文档\GitHub\temp_find_me\libs\nineoldandroids-2.4.0.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="59f19e43354d32de831379c23ce03bb259a4c2b7">
-        <dex dex="D:\My Documents\我的文档\GitHub\temp_find_me\app\build\intermediates\pre-dexed\debug\nineoldandroids-2.4.0-480bed239d787ea74ce962481764cf53cb393a30.jar" />
-    </item>
-    <item
         jar="D:\My Documents\我的文档\GitHub\temp_find_me\libs\wmqtt.jar"
         jumboMode="false"
         revision="22.0.1"
         sha1="fc86f8fb0a55738adc56d1a3320d39a5b71fb04c">
         <dex dex="D:\My Documents\我的文档\GitHub\temp_find_me\app\build\intermediates\pre-dexed\debug\wmqtt-b8081f1185626b57852925c539b28355923a4cc1.jar" />
-    </item>
-    <item
-        jar="D:\My Documents\我的文档\GitHub\temp_find_me\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
-        <dex dex="D:\My Documents\我的文档\GitHub\temp_find_me\app\build\intermediates\pre-dexed\debug\classes-bad5a35e02fb5eb5833d6687e57fbf2fd5cef063.jar" />
     </item>
     <item
         jar="D:\Android\android-sdk-windows\extras\android\m2repository\com\android\support\support-annotations\21.0.3\support-annotations-21.0.3.jar"
@@ -63,6 +42,20 @@
         revision="22.0.1"
         sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
         <dex dex="D:\My Documents\我的文档\GitHub\temp_find_me\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-dfe156b460f1fd4e370c335e99855199772c9aea.jar" />
+    </item>
+    <item
+        jar="D:\My Documents\我的文档\GitHub\temp_find_me\app\libs\baidumapapi_v3_3_0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="110659c4d195f1335d04be564045b6b8eb8d83f4">
+        <dex dex="D:\My Documents\我的文档\GitHub\temp_find_me\app\build\intermediates\pre-dexed\debug\baidumapapi_v3_3_0-fc78f8dcc9fb8459cb43502d74337f131f1d21ba.jar" />
+    </item>
+    <item
+        jar="D:\My Documents\我的文档\GitHub\temp_find_me\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
+        <dex dex="D:\My Documents\我的文档\GitHub\temp_find_me\app\build\intermediates\pre-dexed\debug\classes-bad5a35e02fb5eb5833d6687e57fbf2fd5cef063.jar" />
     </item>
     <item
         jar="D:\My Documents\我的文档\GitHub\temp_find_me\app\libs\locSDK_5.01.jar"

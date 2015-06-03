@@ -25,18 +25,18 @@ public final class R {
 		public static final int dialog_bg = 0x7f020039;
 	}
 	public static final class id {
-		public static final int alertTitle = 0x7f08004a;
-		public static final int button1 = 0x7f08004f;
-		public static final int button2 = 0x7f080050;
-		public static final int contentPanel = 0x7f08004c;
-		public static final int customPanel = 0x7f08004e;
+		public static final int alertTitle = 0x7f080049;
+		public static final int button1 = 0x7f08004e;
+		public static final int button2 = 0x7f08004f;
+		public static final int contentPanel = 0x7f08004b;
+		public static final int customPanel = 0x7f08004d;
 		public static final int icon = 0x7f080026;
-		public static final int main = 0x7f080046;
-		public static final int message = 0x7f08004d;
-		public static final int parentPanel = 0x7f080047;
-		public static final int titleDivider = 0x7f08004b;
-		public static final int title_template = 0x7f080049;
-		public static final int topPanel = 0x7f080048;
+		public static final int main = 0x7f080045;
+		public static final int message = 0x7f08004c;
+		public static final int parentPanel = 0x7f080046;
+		public static final int titleDivider = 0x7f08004a;
+		public static final int title_template = 0x7f080048;
+		public static final int topPanel = 0x7f080047;
 	}
 	public static final class layout {
 		public static final int dialog_layout = 0x7f03001a;

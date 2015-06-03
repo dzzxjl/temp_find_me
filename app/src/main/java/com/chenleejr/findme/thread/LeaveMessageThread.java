@@ -2,9 +2,8 @@ package com.chenleejr.findme.thread;
 
 import android.os.Handler;
 import android.os.Message;
-import android.widget.Toast;
+import android.util.Log;
 
-import com.baidu.location.BDLocation;
 import com.chenleejr.findme.application.MyApplication;
 import com.chenleejr.findme.bean.User;
 import com.chenleejr.findme.util.Tools;
@@ -25,6 +24,7 @@ public class LeaveMessageThread extends Thread {
 		Message m = new Message();
 		try {
 			result = Tools.leaveMessage(app.getSelf(), to, content);
+            Log.i("FindMe", "result:" + result);
 			if (result == null || result.equals("0")) {
 				if (handler != null){
 					m.what = 2;

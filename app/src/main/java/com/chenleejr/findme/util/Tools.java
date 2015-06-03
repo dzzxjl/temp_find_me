@@ -1,6 +1,5 @@
 package com.chenleejr.findme.util;
 
-import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.view.Menu;
@@ -18,8 +17,6 @@ import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.TextOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.chenleejr.findme.R;
-import com.chenleejr.findme.activity.MainActivity;
-import com.chenleejr.findme.application.MyApplication;
 import com.chenleejr.findme.bean.SelfUser;
 import com.chenleejr.findme.bean.User;
 
@@ -31,7 +28,6 @@ import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -172,17 +168,9 @@ public class Tools {
 //        return postData(map);
 //    }
 
-    public static String checkMessage(String name, String password)
-            throws Exception {
-        Map<String, String> map = new HashMap<String, String>();
-        map.put("path", server + "checkMessage.php");
-        map.put("name", name);
-        map.put("password", password);
-        return postData(map);
-    }
-
     public static String leaveMessage(SelfUser frm, User to, String content)
             throws Exception {
+        //Log.i("FindMe", "startLeaveMessage");
         Map<String, String> map = new HashMap<String, String>();
         map.put("path", server + "leaveMessage.php");
         map.put("name", frm.getName());
@@ -190,7 +178,20 @@ public class Tools {
         map.put("frm", String.valueOf(frm.getId()));
         map.put("too", String.valueOf(to.getId()));
         map.put("content", content);
-        return postData(map);
+        String s =  postData(map);
+        Map<String, String> nmap = new HashMap<String, String>();
+        nmap.put("path", server + "checkMessage.php");
+        nmap.put("name", frm.getName());
+        nmap.put("password", frm.getPassword());
+        nmap.put("frm", String.valueOf(frm.getId()));
+        nmap.put("too", String.valueOf(to.getId()));
+        String messageList = postData(nmap);
+        Map<String, String> mmap = new HashMap<String, String>();
+        mmap.put("path", "http://112.74.92.230/other/MQTT/send_mqtt.php");
+        mmap.put("message", messageList);
+        mmap.put("target", "FindMe/" + String.valueOf(to.getId()));
+        postData(mmap);
+        return s;
     }
 
     public static String confirmMessage(String name, String password)
@@ -245,15 +246,5 @@ public class Tools {
         OverlayOptions textOption = new TextOptions().fontSize(18).text(name)
                 .position(point);
         baidumap.addOverlay(textOption);
-    }
-
-    public static void RefreshFromOutSide(MyApplication app) {
-        ArrayList<Activity> a = app.getList();
-        for (Activity aa : a) {
-            if (aa instanceof MainActivity) {
-                ((MainActivity) aa).refresh();
-                break;
-            }
-        }
     }
 }

@@ -8,9 +8,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
@@ -22,7 +20,7 @@ import com.chenleejr.findme.bean.User;
 import com.chenleejr.findme.thread.ConfirmMessageThread;
 import com.chenleejr.findme.thread.LeaveMessageThread;
 
-public class MessageActivity extends Activity implements OnEditorActionListener, OnClickListener {
+public class MessageActivity extends Activity implements OnEditorActionListener {
     @Override
     protected void onDestroy() {
         app.getList().remove(this);
@@ -32,11 +30,9 @@ public class MessageActivity extends Activity implements OnEditorActionListener,
     private EditText et;
     private TextView tv;
     private MyApplication app;
-    private Button bn;
     private User to;
     private Handler handler = new Handler() {
         public void handleMessage(Message m) {
-            bn.setEnabled(true);
             et.setEnabled(true);
             String message = "";
             switch (m.what) {
@@ -84,8 +80,6 @@ public class MessageActivity extends Activity implements OnEditorActionListener,
         }
         app.getList().add(this);
         et.setOnEditorActionListener(this);
-        bn = (Button) this.findViewById(R.id.bn_confirm);
-        bn.setOnClickListener(this);
         to = new User();
         //to.setId(getIntent().getExtras().getInt("id"));
         Intent intent = this.getIntent();
@@ -94,9 +88,9 @@ public class MessageActivity extends Activity implements OnEditorActionListener,
             String message = intent.getExtras().getString("message");
             message = message.replaceAll("&&&", "\n");
             tv.setText(message);
+            new ConfirmMessageThread(app, handler).start();
         } else if (intent.getExtras().getInt("id") != 0) {
             to.setId(getIntent().getExtras().getInt("id"));
-            bn.setVisibility(View.GONE);
         }
     }
 
@@ -108,12 +102,4 @@ public class MessageActivity extends Activity implements OnEditorActionListener,
         }
         return false;
     }
-
-    @Override
-    public void onClick(View v) {
-        bn.setEnabled(false);
-        new ConfirmMessageThread(app, handler).start();
-    }
-
-
 }
