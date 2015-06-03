@@ -39,9 +39,11 @@
 
         <activity
             android:name=".activity.MainActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:label=""></activity>
         <activity
             android:name=".activity.MessageActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:label=""></activity>
         <activity
             android:name=".activity.LoginActivity"

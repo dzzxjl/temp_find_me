@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
@@ -50,29 +49,20 @@ public class MainActivity extends Activity implements OnMarkerClickListener {
     private MapView mapView;
     private LocationClient locationClient = null;
     private BDLocationListener myListener = new MyLocationListener();
-    private TextView tv;
     private ProgressBar pb;
     private BaiduMap map;
     private ActionBar bar;
     private BDLocation mLocation;
-    private boolean firstRefresh = true;
+    private boolean firstRefreshLocation = true;
     private long nowTimeForUpload;
     private long nowTimeForGetData;
-    //private long nowTimeForCheckMessage;
     private MyApplication app;
     private Handler myHandler = new Handler() {
-        int count = 0;
 
         public void handleMessage(Message m) {
             String message = "";
             System.out.println(m.what);
             switch (m.what) {
-//			case 1:
-//				message = "login failed";
-//				break;
-//			case 2:
-//				message = "logout failed";
-//				break;
                 case 3:
                     message = "upload failed";//upload result is null
                     break;
@@ -108,7 +98,6 @@ public class MainActivity extends Activity implements OnMarkerClickListener {
         nowTimeForUpload = System.currentTimeMillis();
         nowTimeForGetData = System.currentTimeMillis();
         //nowTimeForCheckMessage = System.currentTimeMillis();
-        tv = (TextView) this.findViewById(R.id.tv1);
         pb = (ProgressBar) findViewById(R.id.pb_load);
         bar = this.getActionBar();
         bar.setTitle("");
@@ -148,9 +137,30 @@ public class MainActivity extends Activity implements OnMarkerClickListener {
     }
 
     /**
-     * 功能由刷新改为 将自己位置置中，原本的显示好友功能去除
+     * 将自己的位置居中显示
      */
     public void refresh() {
+        LatLng point = new LatLng(mLocation.getLatitude(),
+                mLocation.getLongitude());
+//		MapStatus mMapStatus = new MapStatus.Builder().target(point).zoom(12)
+//				.build();
+
+        //.newMapStatus(mMapStatus);
+        if (firstRefreshLocation) {
+            MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newLatLngZoom(point, 15);
+            map.setMapStatus(mMapStatusUpdate);
+        } else {
+            MapStatus mMapStatus = new MapStatus.Builder().target(point).build();
+            MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
+            map.animateMapStatus(mMapStatusUpdate);
+        }
+        System.out.println("refresh");
+    }
+
+    /**
+     * 将自己的位置显示出来
+     */
+    private void refreshLocation() {
         // System.out.println(mLocation.getLocType());
         boolean errorNetStatus = (mLocation != null)
                 && (mLocation.getLocType() == 61
@@ -163,41 +173,24 @@ public class MainActivity extends Activity implements OnMarkerClickListener {
                     Toast.LENGTH_LONG).show();
             return;
         }
-        if (mLocation.getLocType() == 68)
+        if (mLocation.getLocType() == 68) {
             Toast.makeText(this, "Net status not stable", Toast.LENGTH_SHORT)
                     .show();
-        LatLng point = new LatLng(mLocation.getLatitude(),
-                mLocation.getLongitude());
-//		MapStatus mMapStatus = new MapStatus.Builder().target(point).zoom(12)
-//				.build();
-
-        //.newMapStatus(mMapStatus);
-        if (firstRefresh) {
-            MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newLatLngZoom(point, 15);
-            map.setMapStatus(mMapStatusUpdate);
-        } else {
-            MapStatus mMapStatus = new MapStatus.Builder().target(point).build();
-            MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
-            map.animateMapStatus(mMapStatusUpdate);
         }
         MyLocationData locData = new MyLocationData.Builder()
                 .accuracy(mLocation.getRadius()).direction(0)
                 .latitude(mLocation.getLatitude())
                 .longitude(mLocation.getLongitude()).build();
         map.setMyLocationData(locData);
-//        BitmapDescriptor mCurrentMarker = BitmapDescriptorFactory
-//                .fromResource(R.drawable.icon_geo);
         MyLocationConfiguration config = new MyLocationConfiguration(
                 MyLocationConfiguration.LocationMode.NORMAL, true,
                 null);
         map.setMyLocationConfigeration(config);
-        tv.setText(mLocation.getAddrStr());
-        if (firstRefresh) {
+        if (firstRefreshLocation) {
             pb.setVisibility(View.GONE);
             mapView.setVisibility(View.VISIBLE);
             new GetDataThread(map, app, myHandler).start();
         }
-        System.out.println("refresh");
     }
 
     private class MyLocationListener implements BDLocationListener {
@@ -206,23 +199,38 @@ public class MainActivity extends Activity implements OnMarkerClickListener {
             if (location == null)
                 return;
             mLocation = location;
+            if (!firstRefreshLocation) {
+                refreshLocation();
+            }
             long time = System.currentTimeMillis();
             if (time - nowTimeForUpload >= 1000 * 10) {
                 new UploadThread(location, app, myHandler).start();
                 nowTimeForUpload = time;
             }
-            if (time - nowTimeForGetData >= 1000 * 10) {
-                if (!firstRefresh)
-                    new GetDataThread(map, app, myHandler).start();
-                nowTimeForGetData = time;
-            }
-
-            if (firstRefresh) {
+            if (firstRefreshLocation) {
+                refreshLocation();
                 refresh();
-                firstRefresh = false;
+                new Thread() {
+                    public void run() {
+                        while (true) {
+                            long time = System.currentTimeMillis();
+                            if (time - nowTimeForGetData >= 1000 * 10) {
+                                if (!firstRefreshLocation) {
+                                    new GetDataThread(map, app, myHandler).start();
+                                }
+                                nowTimeForGetData = time;
+                            }
+                            try {
+                                Thread.sleep(1000 * 10);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }.start();
+                firstRefreshLocation = false;
             }
         }
-
     }
 
     @Override
@@ -300,7 +308,7 @@ public class MainActivity extends Activity implements OnMarkerClickListener {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.flush) {
-            if (!firstRefresh)
+            if (!firstRefreshLocation)
                 refresh();
             else {
                 Toast.makeText(this, "Can not refresh now", Toast.LENGTH_SHORT)

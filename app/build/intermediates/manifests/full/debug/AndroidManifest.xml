@@ -39,9 +39,11 @@
 
         <activity
             android:name="com.chenleejr.findme.activity.MainActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="" />
         <activity
             android:name="com.chenleejr.findme.activity.MessageActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="" />
         <activity
             android:name="com.chenleejr.findme.activity.LoginActivity"

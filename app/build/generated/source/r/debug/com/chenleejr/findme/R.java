@@ -1317,10 +1317,9 @@ containing a value of this type.
         public static final int close=0x7f020038;
         public static final int dialog_bg=0x7f020039;
         public static final int ic_launcher=0x7f02003a;
-        public static final int icon_geo=0x7f02003b;
-        public static final int icon_marka=0x7f02003c;
-        public static final int refresh=0x7f02003d;
-        public static final int type=0x7f02003e;
+        public static final int icon_marka=0x7f02003b;
+        public static final int refresh=0x7f02003c;
+        public static final int type=0x7f02003d;
     }
     public static final class id {
         public static final int action_bar=0x7f080031;
@@ -1340,7 +1339,7 @@ containing a value of this type.
         public static final int alertTitle=0x7f080049;
         public static final int always=0x7f080016;
         public static final int beginning=0x7f080013;
-        public static final int bmapView=0x7f080040;
+        public static final int bmapView=0x7f08003f;
         public static final int bn_login=0x7f080056;
         public static final int button1=0x7f08004e;
         public static final int button2=0x7f08004f;
@@ -1378,7 +1377,7 @@ containing a value of this type.
         public static final int normal=0x7f08000a;
         public static final int parentPanel=0x7f080046;
         public static final int password_edit=0x7f080054;
-        public static final int pb_load=0x7f080041;
+        public static final int pb_load=0x7f080040;
         public static final int progress_circular=0x7f080005;
         public static final int progress_horizontal=0x7f080006;
         public static final int radio=0x7f08002b;
@@ -1404,8 +1403,8 @@ containing a value of this type.
         public static final int titleDivider=0x7f08004a;
         public static final int title_template=0x7f080048;
         public static final int topPanel=0x7f080047;
-        public static final int tv1=0x7f08003f;
-        public static final int tv_load=0x7f080042;
+        public static final int tv1=0x7f080042;
+        public static final int tv_load=0x7f080041;
         public static final int tv_message=0x7f080044;
         public static final int type=0x7f080059;
         public static final int up=0x7f080008;
