@@ -20,6 +20,8 @@ import com.chenleejr.findme.bean.User;
 import com.chenleejr.findme.thread.ConfirmMessageThread;
 import com.chenleejr.findme.thread.LeaveMessageThread;
 
+import java.util.concurrent.ExecutorService;
+
 public class MessageActivity extends Activity implements OnEditorActionListener {
     @Override
     protected void onDestroy() {
@@ -31,6 +33,7 @@ public class MessageActivity extends Activity implements OnEditorActionListener 
     private TextView tv;
     private MyApplication app;
     private User to;
+    private ExecutorService pool;
     private Handler handler = new Handler() {
         public void handleMessage(Message m) {
             et.setEnabled(true);
@@ -73,6 +76,7 @@ public class MessageActivity extends Activity implements OnEditorActionListener 
         et = (EditText) this.findViewById(R.id.et_message);
         tv = (TextView) this.findViewById(R.id.tv_message);
         app = (MyApplication) this.getApplication();
+        pool = app.getCachedThreadPool();
         for (Activity a : app.getList()) {
             if (a instanceof MessageActivity) {
                 a.finish();
@@ -88,7 +92,8 @@ public class MessageActivity extends Activity implements OnEditorActionListener 
             String message = intent.getExtras().getString("message");
             message = message.replaceAll("&&&", "\n");
             tv.setText(message);
-            new ConfirmMessageThread(app, handler).start();
+            //new ConfirmMessageThread(app, handler).start();
+            pool.execute(new ConfirmMessageThread(app, handler));
         } else if (intent.getExtras().getInt("id") != 0) {
             to.setId(getIntent().getExtras().getInt("id"));
         }
@@ -98,7 +103,8 @@ public class MessageActivity extends Activity implements OnEditorActionListener 
     public boolean onEditorAction(TextView arg0, int actionId, KeyEvent arg2) {
         if (actionId == EditorInfo.IME_ACTION_DONE) {
             et.setEnabled(false);
-            new LeaveMessageThread(app, handler, to, et.getText().toString().trim()).start();
+            //new LeaveMessageThread(app, handler, to, et.getText().toString().trim()).start();
+            pool.execute(new LeaveMessageThread(app, handler, to, et.getText().toString().trim()));
         }
         return false;
     }

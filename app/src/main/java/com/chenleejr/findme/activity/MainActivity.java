@@ -45,6 +45,7 @@ import com.gitonway.lee.niftymodaldialogeffects.lib.Effectstype;
 import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
 
 public class MainActivity extends Activity implements OnMarkerClickListener {
     private MapView mapView;
@@ -57,6 +58,7 @@ public class MainActivity extends Activity implements OnMarkerClickListener {
     private boolean firstRefreshLocation = true;
     private long nowTimeForUpload;
     private MyApplication app;
+    private ExecutorService pool;
     private Handler myHandler = new Handler() {
 
         public void handleMessage(Message m) {
@@ -90,6 +92,7 @@ public class MainActivity extends Activity implements OnMarkerClickListener {
         setContentView(R.layout.activity_frame);
         app = (MyApplication) this.getApplication();
         app.getList().add(this);
+        pool = app.getCachedThreadPool();
         this.stopService(new Intent(this, UploadService.class));
         nowTimeForUpload = System.currentTimeMillis();
         //nowTimeForCheckMessage = System.currentTimeMillis();
@@ -184,7 +187,8 @@ public class MainActivity extends Activity implements OnMarkerClickListener {
         if (firstRefreshLocation) {
             pb.setVisibility(View.GONE);
             mapView.setVisibility(View.VISIBLE);
-            new GetDataThread(map, app, myHandler).start();
+            //new GetDataThread(map, app, myHandler).start();
+            pool.execute(new GetDataThread(map, app, myHandler));
         }
     }
 
@@ -197,19 +201,20 @@ public class MainActivity extends Activity implements OnMarkerClickListener {
             refreshLocation();
             long time = System.currentTimeMillis();
             if (time - nowTimeForUpload >= 1000 * 10) {
-                new UploadThread(location, app, myHandler).start();
+                //new UploadThread(location, app, myHandler).start();
+                pool.execute(new UploadThread(location, app, myHandler));
                 nowTimeForUpload = time;
             }
             if (firstRefreshLocation) {
                 refresh();
-                new Thread() {
+                pool.execute(new Runnable() {
                     public void run() {
                         long nowTimeForGetData = System.currentTimeMillis();
                         while (true) {
                             Log.i("FindMe", "thread start");
                             boolean flag = false;
-                            for (Activity a: app.getList()){
-                                if (a instanceof MainActivity){
+                            for (Activity a : app.getList()) {
+                                if (a instanceof MainActivity) {
                                     flag = true;
                                     break;
                                 }
@@ -218,7 +223,8 @@ public class MainActivity extends Activity implements OnMarkerClickListener {
                                 break;
                             long time = System.currentTimeMillis();
                             if (time - nowTimeForGetData >= 1000 * 10) {
-                                new GetDataThread(map, app, myHandler).start();
+                                //new GetDataThread(map, app, myHandler).start();
+                                pool.execute(new GetDataThread(map, app, myHandler));
                                 nowTimeForGetData = time;
                                 Log.i("FindMe", "GetData start");
                             }
@@ -229,7 +235,7 @@ public class MainActivity extends Activity implements OnMarkerClickListener {
                             }
                         }
                     }
-                }.start();
+                });
                 firstRefreshLocation = false;
             }
         }

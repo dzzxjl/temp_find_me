@@ -13,17 +13,21 @@ import com.baidu.location.LocationClientOption.LocationMode;
 import com.chenleejr.findme.application.MyApplication;
 import com.chenleejr.findme.thread.UploadThread;
 
+import java.util.concurrent.ExecutorService;
+
 public class UploadService extends Service{
 	private LocationClient locationClient = null;
 	private BDLocationListener myListener = new SimpleLocationListener();
 	private MyApplication app;
     private long nowTime = 0;
+    private ExecutorService pool;
 
 
 	@Override
 	public void onCreate() {
         Log.i("FindMe", "service oncreate");
 		app = (MyApplication) this.getApplication();
+        pool = app.getCachedThreadPool();
 		locationClient = new LocationClient(this.getApplicationContext());
 		locationClient.registerLocationListener(myListener);
 		LocationClientOption option = new LocationClientOption();
@@ -51,7 +55,8 @@ public class UploadService extends Service{
 			if (location == null)
 				return;
             if (System.currentTimeMillis() - nowTime >= 60 * 1000) {
-                new UploadThread(location, app, null).start();
+                //new UploadThread(location, app, null).start();
+                pool.execute(new UploadThread(location, app, null));
                 Log.i("FindMe", "service upload");
                 nowTime = System.currentTimeMillis();
             }

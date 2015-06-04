@@ -24,6 +24,8 @@ import com.chenleejr.findme.R;
 import com.chenleejr.findme.application.MyApplication;
 import com.chenleejr.findme.thread.LoginThread;
 
+import java.util.concurrent.ExecutorService;
+
 public class LoginActivity extends Activity implements OnEditorActionListener, OnClickListener{
 	private EditText etName;
 	private EditText etPassword;
@@ -32,6 +34,7 @@ public class LoginActivity extends Activity implements OnEditorActionListener, O
 	private MyApplication app;
 	private SharedPreferences sp;
 	private final String fileName = "NameAndPwd";
+    private ExecutorService pool;
 	private Handler myHandler = new Handler(){
 		public void handleMessage(Message m){
 			button.setEnabled(true);
@@ -71,6 +74,7 @@ public class LoginActivity extends Activity implements OnEditorActionListener, O
 	    cb = (CheckBox) this.findViewById(R.id.rem_pwd);
 	    app = (MyApplication) this.getApplication();
 	    app.getList().add(this);
+        pool = app.getCachedThreadPool();
 	    sp = this.getSharedPreferences(fileName, Context.MODE_PRIVATE);
 	    etName.setOnEditorActionListener(this);
 	    etPassword.setOnEditorActionListener(this);
@@ -99,7 +103,8 @@ public class LoginActivity extends Activity implements OnEditorActionListener, O
 		button.setEnabled(false);
 		etName.setEnabled(false);
 		etPassword.setEnabled(false);
-		new LoginThread(app, myHandler, name, password).start();
+		//new LoginThread(app, myHandler, name, password).start();
+        pool.execute(new LoginThread(app, myHandler, name, password));
 	}
 
 	@Override

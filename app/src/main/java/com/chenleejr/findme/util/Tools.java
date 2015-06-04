@@ -20,9 +20,9 @@ import com.chenleejr.findme.R;
 import com.chenleejr.findme.bean.SelfUser;
 import com.chenleejr.findme.bean.User;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import java.io.BufferedReader;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
@@ -76,10 +76,6 @@ public class Tools {
 
     }
 
-    /**
-     * @deprecated
-     * 原为好友上线提醒功能，因为好友显示方式改为即时显示，此方法已弃用
-     */
 //    public static void startNotification(Context context, String content,
 //                                         String ticker) {
 //        NotificationManager nm = (NotificationManager) context
@@ -119,18 +115,18 @@ public class Tools {
 //        nm.notify(777, noti);
 //    }
 
-    public static byte[] getBytes(InputStream is) throws IOException {
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        byte[] buffer = new byte[1024];
-        int len = 0;
-        while ((len = is.read(buffer)) != -1) {
-            bos.write(buffer, 0, len);
-        }
-        is.close();
-        bos.flush();
-        byte[] result = bos.toByteArray();
-        return result;
-    }
+//    public static byte[] getBytes(InputStream is) throws IOException {
+//        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+//        byte[] buffer = new byte[1024];
+//        int len = 0;
+//        while ((len = is.read(buffer)) != -1) {
+//            bos.write(buffer, 0, len);
+//        }
+//        is.close();
+//        bos.flush();
+//        byte[] result = bos.toByteArray();
+//        return result;
+//    }
 
     // every method need name and password!
     public static String uploadData(SelfUser user, BDLocation location)
@@ -227,8 +223,14 @@ public class Tools {
         Log.i("code", String.valueOf(code));
         if (code == 200) {
             InputStream is = conn.getInputStream();
-            byte[] result = getBytes(is);
-            return new String(result);
+            //byte[] result = getBytes(is);
+            //return new String(result);
+            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+            String s, result = "";
+            while ((s = br.readLine()) != null){
+                result += s;
+            }
+            return result;
         } else {
             throw new IllegalStateException("bad request");
         }

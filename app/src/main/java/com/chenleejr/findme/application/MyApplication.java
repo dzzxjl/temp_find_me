@@ -7,6 +7,8 @@ import com.chenleejr.findme.bean.SelfUser;
 import com.chenleejr.findme.bean.User;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MyApplication extends Application {
     private ArrayList<Activity> list;
@@ -14,6 +16,7 @@ public class MyApplication extends Application {
     //friends you can see in the screen
     private ArrayList<User> friends;
     private boolean isServiceWanted;
+    private static ExecutorService cachedThreadPool = Executors.newCachedThreadPool();
 
     public ArrayList<User> getFriends() {
         return friends;
@@ -38,7 +41,9 @@ public class MyApplication extends Application {
         friends = new ArrayList<User>();
         super.onCreate();
     }
-
+    public ExecutorService getCachedThreadPool(){
+        return cachedThreadPool;
+    }
     public boolean isServiceWanted() {
         return isServiceWanted;
     }
