@@ -213,6 +213,8 @@ public class MainActivity extends Activity implements OnMarkerClickListener {
                 new Thread() {
                     public void run() {
                         while (true) {
+                            if (!app.getList().contains(this))
+                                break;
                             long time = System.currentTimeMillis();
                             if (time - nowTimeForGetData >= 1000 * 10) {
                                 if (!firstRefreshLocation) {

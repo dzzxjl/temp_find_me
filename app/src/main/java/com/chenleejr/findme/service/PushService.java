@@ -515,6 +515,7 @@ public class PushService extends Service
 			log("Sending keep alive");
 			// publish to a keep-alive topic
 			publishToTopic(MQTT_CLIENT_ID + "/keepalive", mPrefs.getString(PREF_DEVICE_ID, ""));
-		}		
+		}
+
 	}
 }
