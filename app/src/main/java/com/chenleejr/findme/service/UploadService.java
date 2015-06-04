@@ -1,7 +1,9 @@
 package com.chenleejr.findme.service;
 
-import android.app.IntentService;
+import android.app.Service;
 import android.content.Intent;
+import android.os.IBinder;
+import android.util.Log;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -11,62 +13,60 @@ import com.baidu.location.LocationClientOption.LocationMode;
 import com.chenleejr.findme.application.MyApplication;
 import com.chenleejr.findme.thread.UploadThread;
 
-public class UploadService extends IntentService{
+public class UploadService extends Service{
 	private LocationClient locationClient = null;
 	private BDLocationListener myListener = new SimpleLocationListener();
 	private MyApplication app;
+    private long nowTime = 0;
 
-	public UploadService() {
-		super("UploadService");
-	}
-	
+
 	@Override
 	public void onCreate() {
-		super.onCreate();
+        Log.i("FindMe", "service oncreate");
 		app = (MyApplication) this.getApplication();
 		locationClient = new LocationClient(this.getApplicationContext());
 		locationClient.registerLocationListener(myListener);
 		LocationClientOption option = new LocationClientOption();
 		option.setLocationMode(LocationMode.Hight_Accuracy);
 		option.setCoorType("bd09ll");
-		option.setScanSpan(1000*60*5);//5 min
+		option.setScanSpan(1000*60);//5 min
 		locationClient.setLocOption(option);
+        super.onCreate();
 	}
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		System.out.println("Service start");
 		app.setServiceWanted(false);
-		return super.onStartCommand(intent, flags, startId);
+        locationClient.start();
+        if (locationClient != null && locationClient.isStarted())
+            locationClient.requestLocation();
+        nowTime = System.currentTimeMillis();
+        return super.onStartCommand(intent, flags, startId);
 	}
 
-	@Override
-	protected void onHandleIntent(Intent intent) {
-		locationClient.start();
-		if (locationClient != null && locationClient.isStarted())
-			locationClient.requestLocation();
-		while(true){
-			try {
-				Thread.sleep(10 * 1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
 	private class SimpleLocationListener implements BDLocationListener {
 		@Override
 		public void onReceiveLocation(BDLocation location) {
 			if (location == null)
 				return;
-			new UploadThread(location, app, null).start();
+            if (System.currentTimeMillis() - nowTime >= 60 * 1000) {
+                new UploadThread(location, app, null).start();
+                Log.i("FindMe", "service upload");
+                nowTime = System.currentTimeMillis();
+            }
 		}
 	}
 	@Override
 	public void onDestroy() {
-		System.out.println("Service destroy");
+		Log.i("FindMe", "Service destroy");
 		app.setServiceWanted(true);
+        locationClient.stop();
 		super.onDestroy();
 	}
-	
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
 }

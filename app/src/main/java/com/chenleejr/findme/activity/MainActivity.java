@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.StrictMode;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -55,7 +56,6 @@ public class MainActivity extends Activity implements OnMarkerClickListener {
     private BDLocation mLocation;
     private boolean firstRefreshLocation = true;
     private long nowTimeForUpload;
-    private long nowTimeForGetData;
     private MyApplication app;
     private Handler myHandler = new Handler() {
 
@@ -90,13 +90,8 @@ public class MainActivity extends Activity implements OnMarkerClickListener {
         setContentView(R.layout.activity_frame);
         app = (MyApplication) this.getApplication();
         app.getList().add(this);
-        System.out.println("isServiceWanted" + app.isServiceWanted());
-        if (!app.isServiceWanted()) {
-            this.stopService(new Intent(this, UploadService.class));
-            app.setServiceWanted(true);
-        }
+        this.stopService(new Intent(this, UploadService.class));
         nowTimeForUpload = System.currentTimeMillis();
-        nowTimeForGetData = System.currentTimeMillis();
         //nowTimeForCheckMessage = System.currentTimeMillis();
         pb = (ProgressBar) findViewById(R.id.pb_load);
         bar = this.getActionBar();
@@ -199,28 +194,33 @@ public class MainActivity extends Activity implements OnMarkerClickListener {
             if (location == null)
                 return;
             mLocation = location;
-            if (!firstRefreshLocation) {
-                refreshLocation();
-            }
+            refreshLocation();
             long time = System.currentTimeMillis();
             if (time - nowTimeForUpload >= 1000 * 10) {
                 new UploadThread(location, app, myHandler).start();
                 nowTimeForUpload = time;
             }
             if (firstRefreshLocation) {
-                refreshLocation();
                 refresh();
                 new Thread() {
                     public void run() {
+                        long nowTimeForGetData = System.currentTimeMillis();
                         while (true) {
-                            if (!app.getList().contains(this))
+                            Log.i("FindMe", "thread start");
+                            boolean flag = false;
+                            for (Activity a: app.getList()){
+                                if (a instanceof MainActivity){
+                                    flag = true;
+                                    break;
+                                }
+                            }
+                            if (!flag)
                                 break;
                             long time = System.currentTimeMillis();
                             if (time - nowTimeForGetData >= 1000 * 10) {
-                                if (!firstRefreshLocation) {
-                                    new GetDataThread(map, app, myHandler).start();
-                                }
+                                new GetDataThread(map, app, myHandler).start();
                                 nowTimeForGetData = time;
+                                Log.i("FindMe", "GetData start");
                             }
                             try {
                                 Thread.sleep(1000 * 10);
